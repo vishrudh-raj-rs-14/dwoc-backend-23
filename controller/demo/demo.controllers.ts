@@ -1,8 +1,8 @@
-import demoModel from "../../models/demo/demo.model";
+import demoModel from "../../models/demo.model";
 
 const demoController = async (req: any, res: any) => {
   const newDemo = await demoModel.create({
-    content: "asdfjdsjf",
+    content: "test",
   });
   await newDemo.save();
 
