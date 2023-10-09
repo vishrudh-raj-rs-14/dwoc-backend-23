@@ -28,5 +28,5 @@ jobs:
       - name: build
         run: |
           cp ./config/config.example.ts ./config/config.ts
-          cp ./.env.example.ts ./.env
+          cp .env.example.ts .env
           yarn build
