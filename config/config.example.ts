@@ -1,5 +1,5 @@
-const config = {
-  db: "dwoc-23",
+const config: any = {
+  db: "DWOC",
   port: parseInt(process.env.PORT ?? "4000"),
 };
 
