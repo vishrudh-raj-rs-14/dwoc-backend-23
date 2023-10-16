@@ -9,14 +9,9 @@ import cors from "cors";
 import morgan from "morgan";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
-<<<<<<< HEAD
 import orgRouter from "./routes/organisations/organisations.route";
 import { notFoundErr, errorHandler } from "./middleware/errorHandler";
-=======
-
 import userRouter from "./routes/user/user.routes";
->>>>>>> 8c91899 (feat: Google Auth (#3))
-
 connectDatabase(config.db);
 const app = express();
 
@@ -39,13 +34,9 @@ app.use(
 );
 
 // Routes
-<<<<<<< HEAD
+app.use("/", userRouter);
 app.use("/organisation", orgRouter);
-
 app.use(notFoundErr);
 app.use(errorHandler);
-=======
-app.use("/", userRouter);
->>>>>>> 8c91899 (feat: Google Auth (#3))
 
 app.listen(config.port);
