@@ -31,6 +31,7 @@ const projectSchema = new mongoose.Schema({
   year: {
     type: Date,
     required: true,
+    default: Date.now(),
   },
   Mentor: {
     type: [

@@ -19,6 +19,7 @@ const organisationSchema = new mongoose.Schema({
   year: {
     type: Date,
     required: true,
+    default: Date.now(),
   },
   githubUrl: {
     type: String,

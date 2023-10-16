@@ -9,8 +9,8 @@ import cors from "cors";
 import morgan from "morgan";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
-
-import userRouter from "./routes/user/user.routes";
+import orgRouter from "./routes/organisations/organisations.route";
+import { notFoundErr, errorHandler } from "./middleware/errorHandler";
 
 connectDatabase(config.db);
 const app = express();
@@ -34,6 +34,9 @@ app.use(
 );
 
 // Routes
-app.use("/", userRouter);
+app.use("/organisation", orgRouter);
+
+app.use(notFoundErr);
+app.use(errorHandler);
 
 app.listen(config.port);
