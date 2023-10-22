@@ -85,6 +85,14 @@ const getOrganisationProjects = asyncHandler(
 
 const createOrganisationProject = asyncHandler(
   async (req: any, res: any, next: any) => {
+    if (req.organisation.isAccepted !== "ACCEPTED") {
+      res.status(401);
+      return next(
+        new Error(
+          "You are not authorized to perform this action as your organization is not yet verified"
+        )
+      );
+    }
     const project = await Project.create({
       name: req.body.name,
       organisation: req.organisation._id,

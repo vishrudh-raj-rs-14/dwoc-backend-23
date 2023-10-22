@@ -12,6 +12,7 @@ import cookieParser from "cookie-parser";
 import { errorHandler, notFoundErr } from "./middleware/errorHandler";
 import userRouter from "./routes/user/user.routes";
 import orgRouter from "./routes/organisations/organisations.route";
+import projectRouter from "./routes/projects/projects.route";
 
 connectDatabase(config.db);
 const app = express();
@@ -35,8 +36,9 @@ app.use(
 );
 
 // Routes
-app.use("/", userRouter);
-app.use("/organisation", orgRouter);
+app.use("/api/", userRouter);
+app.use("/api/organisations", orgRouter);
+app.use("/api/projects", projectRouter);
 
 app.use(notFoundErr);
 app.use(errorHandler);
