@@ -36,7 +36,7 @@ app.use(
 );
 
 // Routes
-app.use("/api/", userRouter);
+app.use("/api/users", userRouter);
 app.use("/api/organisations", orgRouter);
 app.use("/api/projects", projectRouter);
 

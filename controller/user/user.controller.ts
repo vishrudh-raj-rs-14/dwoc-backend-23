@@ -8,4 +8,94 @@ const protect = asyncHandler(async (req: any, res: any, next: any) => {
   next();
 });
 
-export { protect };
+const getUserData = asyncHandler(async (req: any, res: any, next: any) => {
+  const user = await User.findById(req.params.userId);
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+  return res.json({
+    name: user.name,
+    githubHandle: user.githubHandle,
+  });
+});
+
+const register = asyncHandler(async (req: any, res: any, next: any) => {
+  const user = await User.findById(req.params.userId);
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+  if (
+    !req.body.githubHandle ||
+    !req.body.college ||
+    !req.body.phone ||
+    !req.body.address ||
+    !req.body.tshirtSize
+  ) {
+    res.status(400);
+    throw new Error("Please fill all the fields");
+  }
+  const newUser = await User.findByIdAndUpdate(
+    req.params.userId,
+    {
+      githubHandle: req.body.githubHandle,
+      college: req.body.college,
+      phone: req.body.phone,
+      address: req.body.address,
+      tshirtSize: req.body.tshirtSize,
+      isFilled: true,
+    },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  return res.json(newUser);
+});
+
+const getProfile = asyncHandler(async (req: any, res: any, next: any) => {
+  const user = await User.findById(req.params.userId);
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+  return res.json({
+    name: user.name,
+    email: user.email,
+    githubHandle: user.githubHandle,
+    isMentor: user.isMentor,
+    isFilled: user.isFilled,
+    college: user.college,
+    phone: user.phone,
+    address: user.address,
+    tshirtSize: user.tshirtSize,
+    isAdmin: user.isAdmin,
+  });
+});
+
+const updateProfile = asyncHandler(async (req: any, res: any, next: any) => {
+  const user = await User.findById(req.params.userId);
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+  const newUser = await User.findByIdAndUpdate(
+    req.params.userId,
+    {
+      college: req.body.college,
+      phone: req.body.phone,
+      address: req.body.address,
+      tshirtSize: req.body.tshirtSize,
+    },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  return res.json(newUser);
+});
+
+export { protect, getUserData, getProfile, updateProfile, register };
