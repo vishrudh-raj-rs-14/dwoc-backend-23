@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
   githubHandle: {
     type: String,
   },
-  isMentor: {
+  isOrg: {
     type: Boolean,
     default: false,
   },

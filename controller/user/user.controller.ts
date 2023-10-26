@@ -31,7 +31,8 @@ const register = asyncHandler(async (req: any, res: any, next: any) => {
     !req.body.college ||
     !req.body.phone ||
     !req.body.address ||
-    !req.body.tshirtSize
+    !req.body.tshirtSize ||
+    !req.body.isOrg
   ) {
     res.status(400);
     throw new Error("Please fill all the fields");
@@ -42,6 +43,7 @@ const register = asyncHandler(async (req: any, res: any, next: any) => {
       githubHandle: req.body.githubHandle,
       college: req.body.college,
       phone: req.body.phone,
+      isOrg: req.body.isOrg,
       address: req.body.address,
       tshirtSize: req.body.tshirtSize,
       isFilled: true,
@@ -65,7 +67,7 @@ const getProfile = asyncHandler(async (req: any, res: any, next: any) => {
     name: user.name,
     email: user.email,
     githubHandle: user.githubHandle,
-    isMentor: user.isMentor,
+    isOrg: user.isOrg,
     isFilled: user.isFilled,
     college: user.college,
     phone: user.phone,

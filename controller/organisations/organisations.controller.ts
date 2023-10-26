@@ -2,8 +2,6 @@ import asyncHandler from "express-async-handler";
 import Organisation from "../../models/organization.model";
 import Project from "../../models/project.model";
 import mongoose from "mongoose";
-import User from "../../models/user.model";
-import Invitation from "../../models/invitation.model";
 
 const restrictToOwner = asyncHandler(async (req: any, res: any, next: any) => {
   const organisation = await Organisation.findById(req.params.id);
@@ -111,44 +109,11 @@ const createOrganisationProject = asyncHandler(
   }
 );
 
-const addMentor = asyncHandler(async (req: any, res: any, next: any) => {
-  const user = await User.findById(req.body.user);
-  if (!user) {
-    res.status(404);
-    return next(new Error("No such User found"));
-  }
-  Invitation.create({
-    organisation: req.organisation._id,
-    mentor: user._id,
-  });
-  return res.status(201).json({
-    status: "success",
-    message: "Invitation Sent Successfully",
-  });
-});
-
-const getMentor = asyncHandler(async (req: any, res: any, next: any) => {
-  const organisation = await Organisation.findById(req.params.id).populate(
-    "mentors"
-  );
-  console.log(organisation);
-  if (!organisation) {
-    res.status(404);
-    return next(new Error("No such organisation found"));
-  }
-  return res.status(201).json({
-    status: "success",
-    mentors: organisation.mentors,
-  });
-});
-
 export {
   createOrganisation,
   getAllOrganisations,
   getOrganisation,
   getOrganisationProjects,
   createOrganisationProject,
-  addMentor,
   restrictToOwner,
-  getMentor,
 };
