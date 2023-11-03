@@ -13,6 +13,7 @@ import { errorHandler, notFoundErr } from "./middleware/errorHandler";
 import userRouter from "./routes/user/user.routes";
 import orgRouter from "./routes/organisations/organisations.route";
 import projectRouter from "./routes/projects/projects.route";
+import { LeaderBoardRouter } from "./routes/leaderboard/leaderboard.route";
 
 connectDatabase(config.db);
 const app = express();
@@ -39,6 +40,7 @@ app.use(
 app.use("/api/users", userRouter);
 app.use("/api/organisations", orgRouter);
 app.use("/api/projects", projectRouter);
+app.use("/api/leaderboard", LeaderBoardRouter);
 
 app.use(notFoundErr);
 app.use(errorHandler);

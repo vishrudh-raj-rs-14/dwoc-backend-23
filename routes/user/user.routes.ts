@@ -9,10 +9,12 @@ import {
   getProfile,
   updateProfile,
   register,
+  generateMockUsers,
 } from "../../controller/user/user.controller";
 
+userRouter.get("/mock", generateMockUsers);
 userRouter.get("/:userId", protect, getUserData);
-userRouter.get("/profile/:userId", protect, getProfile);
+userRouter.get("/profile/:userId", generateMockUsers);
 
 userRouter.put("/register/:userId", protect, register);
 userRouter.put("/profile/:userId", protect, updateProfile);

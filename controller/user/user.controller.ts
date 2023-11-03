@@ -1,9 +1,10 @@
 import asyncHandler from "express-async-handler";
 import User from "../../models/user.model";
+import { generateMockUserData } from "../../utils/faker";
 
 const protect = asyncHandler(async (req: any, res: any, next: any) => {
   //NEED TO IMPLEMENT ACTUAL PROTECT AFTER AUTH IS DONE
-  const user = await User.findOne({ name: "vishrudh" });
+  const user = await User.findOne({ name: "vishrudh" }).lean();
   req.user = user;
   next();
 });
@@ -100,4 +101,21 @@ const updateProfile = asyncHandler(async (req: any, res: any, next: any) => {
   return res.json(newUser);
 });
 
-export { protect, getUserData, getProfile, updateProfile, register };
+const generateMockUsers = asyncHandler(
+  async (req: any, res: any, next: any) => {
+    console.log("here");
+    await generateMockUserData();
+    return res.json({
+      status: "success",
+    });
+  }
+);
+
+export {
+  protect,
+  getUserData,
+  getProfile,
+  updateProfile,
+  register,
+  generateMockUsers,
+};
