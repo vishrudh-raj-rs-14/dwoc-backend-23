@@ -24,7 +24,7 @@ const CreateAndSendToken = (user: any, statusCode: Number, res: any) => {
   };
 
   //   if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
-  res.cookie("jwt", token, cookieOptions);
+  res.cookie("dwocToken", token, cookieOptions);
 
   user.password = undefined;
 };

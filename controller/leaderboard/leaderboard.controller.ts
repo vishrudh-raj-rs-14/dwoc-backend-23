@@ -1,6 +1,5 @@
 import asyncHandler from "express-async-handler";
 import User from "../../models/user.model";
-import { X509Certificate } from "crypto";
 
 const getLeaderboard = asyncHandler(async (req: any, res: any) => {
   const page = req.query.page || 1;

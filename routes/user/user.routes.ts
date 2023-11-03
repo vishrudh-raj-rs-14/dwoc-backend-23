@@ -13,13 +13,13 @@ import {
 } from "../../controller/user/user.controller";
 
 userRouter.get("/mock", generateMockUsers);
-userRouter.get("/:userId", protect, getUserData);
 userRouter.get("/profile/:userId", generateMockUsers);
 
-userRouter.put("/register/:userId", protect, register);
+userRouter.put("/register", protect, register);
 userRouter.put("/profile/:userId", protect, updateProfile);
 
 userRouter.get("/getGoogleOauthURL", getGoogleOauthURL);
-userRouter.get("/sessions/oauth/google", googleOauthHandler);
+
+userRouter.get("/:userId", protect, getUserData);
 
 export default userRouter;

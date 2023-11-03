@@ -22,9 +22,10 @@ const getGoogleOauthURL = (req: any, res: any, next: any) => {
 
   const qs = new URLSearchParams(options);
 
-  res.redirect(`${rootUrl}?${qs.toString()}`);
+  // res.redirect(`${rootUrl}?${qs.toString()}`);
   res.status(200).json({
     status: "success",
+    url: `${rootUrl}?${qs.toString()}`,
   });
 };
 
