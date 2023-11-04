@@ -2,22 +2,39 @@ import asyncHandler from "express-async-handler";
 import Organisation from "../../models/organization.model";
 import Project from "../../models/project.model";
 import mongoose from "mongoose";
+import User from "../../models/user.model";
 
 const restrictToOwner = asyncHandler(async (req: any, res: any, next: any) => {
-  const organisation = await Organisation.findById(req.params.id);
+  const organisation = await Organisation.findOne({ orgOwner: req.user._id });
   if (!organisation) {
     res.status(404);
-    return next(new Error("No such organisation found"));
+    return next(new Error("You dont own any organisation"));
   }
-  if (String(organisation.orgOwner) != req.user.id) {
-    res.status(401);
-    return next(new Error("You are not authorized to perform this action"));
-  }
+  // if (String(organisation.orgOwner) != req.user.id) {
+  //   res.status(401);
+  //   return next(new Error("You are not authorized to perform this action"));
+  // }
   req.organisation = organisation;
   next();
 });
 
 const createOrganisation = asyncHandler(async (req: any, res: any) => {
+  if (req.user.isOrg) {
+    res.status(400);
+    throw new Error("You already own an organisation");
+  }
+
+  if (
+    !req.body.name ||
+    !req.body.githubUrl ||
+    !req.body.description ||
+    !req.body.miniDescription ||
+    !req.body.orgType
+  ) {
+    res.status(400);
+    throw new Error("Please fill all the fields");
+  }
+
   const newOrganisation = await Organisation.create({
     name: req.body.name,
     orgOwner: req.user._id,
@@ -27,7 +44,11 @@ const createOrganisation = asyncHandler(async (req: any, res: any) => {
     orgType: req.body.orgType,
   });
   const organisation = await newOrganisation.save();
-
+  const user = await User.findByIdAndUpdate(
+    String(req.user._id),
+    { isOrg: true },
+    { new: true }
+  );
   return res.status(201).json({
     status: "success",
     data: {

@@ -15,7 +15,7 @@ orgRouter.get("/:id", getOrganisation);
 orgRouter.get("/:id/projects", getOrganisationProjects);
 orgRouter.post("/", protect, createOrganisation);
 orgRouter.post(
-  "/:id/projects",
+  "/projects",
   protect,
   restrictToOwner,
   createOrganisationProject

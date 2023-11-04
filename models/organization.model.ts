@@ -40,22 +40,10 @@ const organisationSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  mentors: {
-    type: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
-  },
   isAccepted: {
     type: String,
     enum: ["PENDING", "REJECTED", "ACCEPTED"],
     default: "PENDING",
-  },
-  feedBack: {
-    type: String,
-    default: "",
   },
   orgType: {
     type: String,

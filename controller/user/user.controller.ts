@@ -23,8 +23,8 @@ const protect = asyncHandler(async (req: any, res: any, next: any) => {
     req.headers.authorization.startsWith("Bearer")
   ) {
     token = req.headers.authorization.split(" ")[1];
-  } else if (req.cookies.jwt) {
-    token = req.cookies.jwt;
+  } else if (req.cookies["dwocToken"]) {
+    token = req.cookies["dwocToken"];
   }
   if (!token) {
     res.status(403);
@@ -34,6 +34,7 @@ const protect = asyncHandler(async (req: any, res: any, next: any) => {
     token,
     process.env.JWT_SECRET as string
   );
+  console.log(decoded);
   const user = await User.findById(decoded.id);
   if (!user) {
     res.status(401);
@@ -46,7 +47,7 @@ const protect = asyncHandler(async (req: any, res: any, next: any) => {
 });
 
 const getUserData = asyncHandler(async (req: any, res: any, next: any) => {
-  const user = await User.findById(req.params.userId);
+  const user = await User.findById(String(req.user._id));
   if (!user) {
     res.status(404);
     throw new Error("User not found");
@@ -115,6 +116,29 @@ const getProfile = asyncHandler(async (req: any, res: any, next: any) => {
     throw new Error("User not found");
   }
   return res.json({
+    isLoggedIn: true,
+    user: {
+      name: user.name,
+      email: user.email,
+      githubHandle: user.githubHandle,
+      isOrg: user.isOrg,
+      isFilled: user.isFilled,
+      college: user.college,
+      phone: user.phone,
+      address: user.address,
+      tshirtSize: user.tshirtSize,
+      isAdmin: user.isAdmin,
+    },
+  });
+});
+
+const isLoggedIn = asyncHandler(async (req: any, res: any, next: any) => {
+  const user = await User.findById(String(req.user._id));
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+  return res.json({
     name: user.name,
     email: user.email,
     githubHandle: user.githubHandle,
@@ -125,6 +149,7 @@ const getProfile = asyncHandler(async (req: any, res: any, next: any) => {
     address: user.address,
     tshirtSize: user.tshirtSize,
     isAdmin: user.isAdmin,
+    isLoggedIn: true,
   });
 });
 
@@ -168,4 +193,5 @@ export {
   updateProfile,
   register,
   generateMockUsers,
+  isLoggedIn,
 };
