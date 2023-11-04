@@ -35,7 +35,7 @@ const protect = asyncHandler(async (req: any, res: any, next: any) => {
     process.env.JWT_SECRET as string
   );
   console.log(decoded);
-  const user = await User.findById(decoded.id);
+  const user = await User.findById(decoded.id).lean();
   if (!user) {
     res.status(401);
     return next(
